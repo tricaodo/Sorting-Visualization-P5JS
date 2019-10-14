@@ -20,11 +20,11 @@ function quickSort(arr, start = 0, end = arr.length){
     return arr;
 }
 
-function swap(arr, i, j){
-    let temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
-}
+// function swap(arr, i, j){
+//     let temp = arr[i];
+//     arr[i] = arr[j];
+//     arr[j] = temp;
+// }
 
 let arr = [4,8,2,1,5,7,6,3];
 quickSort(arr);
