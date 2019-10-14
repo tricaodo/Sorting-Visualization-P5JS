@@ -14,7 +14,7 @@ function draw() {
   background(200);
   for (let i = 0; i < rectangles.length; i++) {
     if(rectangles[i].state == -1){
-      fill("#2ed573");
+      fill("#1dd1a1");
     }else if(rectangles[i].state == 0){
       fill("#feca57");
     }else{
