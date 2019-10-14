@@ -1,66 +1,53 @@
-let values;
-let rectWidth = 25;
-let step = 0;
+let rectangles = [];
+let rectWidth = 30;
 
-function setup() {
-  background(255);
-  let canvas = createCanvas(450, 300);
-  canvas.position(600, 300);
-  values = new Array(Math.floor(width / rectWidth));
-  for (let i = 0; i < values.length; i++) {
-    values[i] = Math.floor(random(height));
+function setup(){
+  createCanvas(480, 300);
+  for(let i = 0; i < Math.floor(width)/rectWidth; i++){
+    let rectangle = new Rectangle(Math.floor(random(5, height)));
+    rectangles.push(rectangle);
   }
-  createRect(-1, -1);
+  bubbleSort();
 }
 
-function draw() {
-  frameRate(1)
-  if (!isSorted()) {
-    bubbleSort(step);
-    step = (step + 1)  % (values.length - 1);
-  }else{
-    createRect(-1, -1)
+
+function draw(){
+  background(51);
+  for(let i = 0; i < rectangles.length; i++){
+    if(rectangles[i].state == -1){
+      fill("#4578bf");
+    }else if(rectangles[i].state == 0){
+      fill("#ba4153");
+    }else{
+      fill("#63c914");
+    }
+    rect(rectWidth * i, height - rectangles[i].value, rectWidth, rectangles[i].value);
   }
 }
 
-function isSorted() {
-  for (let i = 0; i < values.length - 1; i++) {
-    if (values[i] > values[i + 1]) {
-      return false;
+async function bubbleSort(){
+  for(let i = 0; i < rectangles.length; i++){
+    for(let j = 0; j < rectangles.length - 1 - i; j++){
+      if(rectangles[j].value > rectangles[j + 1].value){
+        rectangles[j].state = 0;
+        rectangles[j + 1].state = 0;
+        await swap(j, j + 1);
+        rectangles[j].state = -1;
+        rectangles[j + 1].state = -1;
+      }
+      rectangles[j].state = 2;
+      rectangles[j + 1].state = 2;
     }
   }
-  return true;
 }
 
-function createRect(a, b) {
-  background(130);
-  for (let i = 0; i < values.length; i++) {
-    if (i == a) {
-      fill("#f7e4a6");
-    } else if (i == b) {// processing
-      fill("#beeb71");
-    } else {
-      fill("#87d6f5");
-    }
-    rect(i * rectWidth, height - values[i], rectWidth, values[i]);
-  }
+async function swap(i, j){
+  await sleep(200);
+  let temp = rectangles[i].value;
+  rectangles[i].value = rectangles[j].value;
+  rectangles[j].value = temp;
 }
 
-async function bubbleSort(i) {
-  createRect(i, i + 1);
-  if (values[i] > values[i + 1]) {
-     await swap(i, i + 1);
-   
-  }
-}
-
-async function swap(i, j) {
-  await sleep(30);
-  let temp = values[i];
-  values[i] = values[j];
-  values[j] = temp;
-}
-
-function sleep(time) {
-  return new Promise((resolve, reject) => { setTimeout(resolve, time) });
+function sleep(time){
+  return new Promise(function(resolve){setTimeout(resolve, time)});
 }
