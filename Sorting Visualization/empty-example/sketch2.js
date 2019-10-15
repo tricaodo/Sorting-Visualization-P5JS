@@ -4,7 +4,7 @@ function setup() {
     createCanvas(800, 390);
     let numOfRects = Math.floor(width / rectWidth);
     for (let i = 0; i < numOfRects; i++) {
-        let rectangle = new Rectangle(Math.floor(random(10, height - 100)));
+        let rectangle = new Rectangle(Math.floor(random(10, height - 50)));
         rectangles.push(rectangle);
     }
     quickSort(0, rectangles.length);
@@ -16,8 +16,10 @@ function draw() {
             fill("#1dd1a1");
         } else if (rectangles[i].state == 0) {
             fill("#feca57");
-        } else {
+        } else if (rectangles[i].state == 1) {
             fill("#ff6b81");
+        } else {
+            fill("#48dbfb");
         }
         rect(i * rectWidth, height - rectangles[i].value, rectWidth, rectangles[i].value, 8, 8, 0, 0);
     }
@@ -27,18 +29,20 @@ function draw() {
 async function quickSort(start, end) {
     if (start < end) {
         let pivot = await partition(start, end);
-        new Promise.all([quickSort(start, pivot)], [quickSort(pivot + 1, end)]);
+        Promise.all(
+            [quickSort(start, pivot)],
+            [quickSort(pivot + 1, end)]);
     }
 }
 
 async function partition(start, end) {
     let pivot = rectangles[start].value;
     let pivotIndex = start;
-    rectangles[start].state = 0;
     for (let i = start + 1; i < end; i++) {
-        rectangles[start].state = 1;
+        rectangles[start].state = 2;
         if (pivot > rectangles[i].value) {
             pivotIndex++;
+            rectangles[pivotIndex].state = 1;
             await swap(i, pivotIndex);
         }
         rectangles[start].state = -1;
@@ -47,15 +51,15 @@ async function partition(start, end) {
     rectangles[pivotIndex].state = 1;
 
     await swap(start, pivotIndex);
-
-    rectangles[start].state = -1;
     rectangles[pivotIndex].state = -1;
+    rectangles[start].state = -1;
+    // rectangles[pivotIndex].state = -1;
 
     return pivotIndex;
 }
 
 async function swap(i, j) {
-    await sleep(200);
+    await sleep(400);
     let temp = rectangles[i].value;
     rectangles[i].value = rectangles[j].value;
     rectangles[j].value = temp;
