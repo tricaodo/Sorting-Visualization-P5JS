@@ -1,7 +1,7 @@
 let rectangles = [];
 let rectWidth = 38;
 function setup() {
-    createCanvas(500, 390);
+    createCanvas(800, 390);
     let numOfRects = Math.floor(width / rectWidth);
     for (let i = 0; i < numOfRects; i++) {
         let rectangle = new Rectangle(Math.floor(random(10, height - 100)));
@@ -24,11 +24,10 @@ function draw() {
 }
 
 
-function quickSort(start, end) {
+async function quickSort(start, end) {
     if (start < end) {
-        let pivot = partition(start, end);
-        quickSort(start, pivot);
-        quickSort(pivot + 1, end);
+        let pivot = await partition(start, end);
+        new Promise.all([quickSort(start, pivot)], [quickSort(pivot + 1, end)]);
     }
 }
 
@@ -40,14 +39,14 @@ async function partition(start, end) {
         rectangles[start].state = 1;
         if (pivot > rectangles[i].value) {
             pivotIndex++;
-            swap(i, pivotIndex);
+            await swap(i, pivotIndex);
         }
         rectangles[start].state = -1;
     }
     rectangles[start].state = 0;
     rectangles[pivotIndex].state = 1;
 
-    swap(start, pivotIndex);
+    await swap(start, pivotIndex);
 
     rectangles[start].state = -1;
     rectangles[pivotIndex].state = -1;
@@ -69,3 +68,40 @@ function sleep(time) {
 // let arr = [5, 3, 6, 4, 8, 1, 2];
 // quickSort(arr, 0, arr.length);
 
+
+// function quickSort(start, end) {
+//     if (start < end) {
+//         let pivot = partition(start, end);
+//         quickSort(start, pivot);
+//         quickSort(pivot + 1, end);
+//     }
+// }
+
+// function partition(start, end) {
+//     let pivot = rectangles[start].value;
+//     let pivotIndex = start;
+//     rectangles[start].state = 0;
+//     for (let i = start + 1; i < end; i++) {
+//         rectangles[start].state = 1;
+//         if (pivot > rectangles[i].value) {
+//             pivotIndex++;
+//             swap(i, pivotIndex);
+//         }
+//         rectangles[start].state = -1;
+//     }
+//     rectangles[start].state = 0;
+//     rectangles[pivotIndex].state = 1;
+
+//     swap(start, pivotIndex);
+
+//     rectangles[start].state = -1;
+//     rectangles[pivotIndex].state = -1;
+
+//     return pivotIndex;
+// }
+
+// function swap(i, j) {
+//     let temp = rectangles[i].value;
+//     rectangles[i].value = rectangles[j].value;
+//     rectangles[j].value = temp;
+// }
