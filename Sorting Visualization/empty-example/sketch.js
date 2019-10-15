@@ -4,7 +4,7 @@ function setup() {
   createCanvas(500, 390);
   let numOfRects = Math.floor(width / rectWidth);
   for (let i = 0; i < numOfRects; i++) {
-    let rectangle = new Rectangle(Math.floor(random(10, height)));
+    let rectangle = new Rectangle(Math.floor(random(10, height-100)));
     rectangles.push(rectangle);
   }
   bubbleSort();
@@ -48,3 +48,9 @@ async function swap(i, j){
 function sleep(time){
   return new Promise(function(resolve){setTimeout(resolve, time)});
 }
+
+
+
+
+
+
