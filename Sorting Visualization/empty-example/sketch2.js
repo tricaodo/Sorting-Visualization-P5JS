@@ -1,27 +1,30 @@
 let rectangles = [];
-let rectWidth = 38;
+let rectWidth = 34;
 function setup() {
-    createCanvas(800, 390);
+    createCanvas(1000, 390);
     let numOfRects = Math.floor(width / rectWidth);
     for (let i = 0; i < numOfRects; i++) {
-        let rectangle = new Rectangle(Math.floor(random(10, height - 50)));
+        let rectangle = new Rectangle(Math.floor(random(10, height - 40)));
         rectangles.push(rectangle);
     }
+    // textAlign(CENTER, BASELINE);
     quickSort(0, rectangles.length);
 }
 function draw() {
     background(200);
+
     for (let i = 0; i < rectangles.length; i++) {
         if (rectangles[i].state == -1) {
-            fill("#1dd1a1");
+            fill("#05c46b"); // default green
         } else if (rectangles[i].state == 0) {
-            fill("#feca57");
+            fill("#f7d794"); // yellow for swap 2 elements
         } else if (rectangles[i].state == 1) {
-            fill("#ff6b81");
-        } else {
-            fill("#48dbfb");
+            fill("#ff6b81"); // pink pivot
+        } else if (rectangles[i].state == 2) {
+            fill("#9AECDB");
         }
-        rect(i * rectWidth, height - rectangles[i].value, rectWidth, rectangles[i].value, 8, 8, 0, 0);
+        text(rectangles[i].value, i * rectWidth + 6, height-20);
+        rect(i * rectWidth, height - rectangles[i].value - 40, rectWidth, rectangles[i].value, 8, 8, 0, 0);
     }
 }
 
@@ -37,75 +40,36 @@ async function quickSort(start, end) {
 
 async function partition(start, end) {
     let pivot = rectangles[start].value;
+    rectangles[start].state = 1; // pivot red
     let pivotIndex = start;
+
     for (let i = start + 1; i < end; i++) {
-        rectangles[start].state = 2;
+
         if (pivot > rectangles[i].value) {
+            rectangles[i].state = 2; // current little green   
             pivotIndex++;
-            rectangles[pivotIndex].state = 1;
             await swap(i, pivotIndex);
         }
-        rectangles[start].state = -1;
     }
-    rectangles[start].state = 0;
-    rectangles[pivotIndex].state = 1;
+
+    rectangles[start].state = 0; 
+    rectangles[pivotIndex].state = 0;
 
     await swap(start, pivotIndex);
-    rectangles[pivotIndex].state = -1;
-    rectangles[start].state = -1;
-    // rectangles[pivotIndex].state = -1;
-
     return pivotIndex;
 }
 
 async function swap(i, j) {
-    await sleep(400);
+
+    await sleep(700);
     let temp = rectangles[i].value;
     rectangles[i].value = rectangles[j].value;
     rectangles[j].value = temp;
+
+    rectangles[i].state = -1; //
+    rectangles[j].state = -1;
 }
 
 function sleep(time) {
     return new Promise(function (resolve) { setTimeout(resolve, time) });
 }
-
-// let arr = [5, 3, 6, 4, 8, 1, 2];
-// quickSort(arr, 0, arr.length);
-
-
-// function quickSort(start, end) {
-//     if (start < end) {
-//         let pivot = partition(start, end);
-//         quickSort(start, pivot);
-//         quickSort(pivot + 1, end);
-//     }
-// }
-
-// function partition(start, end) {
-//     let pivot = rectangles[start].value;
-//     let pivotIndex = start;
-//     rectangles[start].state = 0;
-//     for (let i = start + 1; i < end; i++) {
-//         rectangles[start].state = 1;
-//         if (pivot > rectangles[i].value) {
-//             pivotIndex++;
-//             swap(i, pivotIndex);
-//         }
-//         rectangles[start].state = -1;
-//     }
-//     rectangles[start].state = 0;
-//     rectangles[pivotIndex].state = 1;
-
-//     swap(start, pivotIndex);
-
-//     rectangles[start].state = -1;
-//     rectangles[pivotIndex].state = -1;
-
-//     return pivotIndex;
-// }
-
-// function swap(i, j) {
-//     let temp = rectangles[i].value;
-//     rectangles[i].value = rectangles[j].value;
-//     rectangles[j].value = temp;
-// }
