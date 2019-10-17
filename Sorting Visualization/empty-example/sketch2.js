@@ -1,5 +1,5 @@
 let rectangles = [];
-let rectWidth = 34;
+let rectWidth = 10;
 function setup() {
     createCanvas(1000, 390);
     let numOfRects = Math.floor(width / rectWidth);
@@ -23,7 +23,7 @@ function draw() {
         } else if (rectangles[i].state == 2) {
             fill("#9AECDB");
         }
-        text(rectangles[i].value, i * rectWidth + 6, height-20);
+        // text(rectangles[i].value, i * rectWidth + 6, height-20);
         rect(i * rectWidth, height - rectangles[i].value - 40, rectWidth, rectangles[i].value, 8, 8, 0, 0);
     }
 }
@@ -61,7 +61,7 @@ async function partition(start, end) {
 
 async function swap(i, j) {
 
-    await sleep(700);
+    await sleep(200);
     let temp = rectangles[i].value;
     rectangles[i].value = rectangles[j].value;
     rectangles[j].value = temp;
