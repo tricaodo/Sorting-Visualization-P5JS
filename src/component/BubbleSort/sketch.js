@@ -31,13 +31,13 @@ export default function sketch (p) {
     async function bubbleSort(){
         for(let i = 0; i < rectangles.length; i++){
             for(let j = 0; j < rectangles.length - 1 - i; j++){
-            if(rectangles[j].value > rectangles[j + 1].value){
-                rectangles[j].state = 0;
-                rectangles[j + 1].state = 2;
-                await swap(j, j + 1);
-                rectangles[j].state = -1;
-                rectangles[j + 1].state = -1;
-            }
+                if(rectangles[j].value > rectangles[j + 1].value){
+                    rectangles[j].state = 0;
+                    rectangles[j + 1].state = 2;
+                    await swap(j, j + 1);
+                    rectangles[j].state = -1;
+                    rectangles[j + 1].state = -1;
+                }
             }
         }
     }
