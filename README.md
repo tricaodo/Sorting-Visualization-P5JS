@@ -4,6 +4,7 @@ This Sorting Visualization was built using JavaScript. I built this because I wo
 Many types of sorting algorithm:
 - Bubble Sort
 - Quick Sort
+- Selection Sort
 ## Available Scripts
 
 In the project directory, you can run:
