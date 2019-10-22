@@ -2,7 +2,7 @@ import Rectangle from '../../rectangle.js';
 
 export default function sketch (p) {
     let rectangles = [];
-    let rectWidth = 34;
+    let rectWidth = 10;
 
     p.setup = function () {
         p.createCanvas(1000, 390);
@@ -16,7 +16,7 @@ export default function sketch (p) {
     };
 
     p.draw = function () {
-        p.background(200);
+        p.background("#ffffff");
         for (let i = 0; i < rectangles.length; i++) {
             if (rectangles[i].state == -1) {
                 p.fill("#05c46b"); // default green
@@ -27,7 +27,7 @@ export default function sketch (p) {
             } else if (rectangles[i].state == 2) {
                 p.fill("#9AECDB");
             }
-            p.text(rectangles[i].value, i * rectWidth + 6, 390-20);
+            // p.text(rectangles[i].value, i * rectWidth + 6, 390-20);
             p.rect(i * rectWidth, 390 - rectangles[i].value - 40, rectWidth, rectangles[i].value, 8, 8, 0, 0);
         }
     };
@@ -49,13 +49,13 @@ export default function sketch (p) {
         for (let i = start + 1; i < end; i++) {
 
             if (pivot > rectangles[i].value) {
-                rectangles[i].state = 2; // current little green   
+                rectangles[i].state = 2; // current little green
                 pivotIndex++;
                 await swap(i, pivotIndex);
             }
         }
 
-        rectangles[start].state = 0; 
+        rectangles[start].state = 0;
         rectangles[pivotIndex].state = 0;
 
         await swap(start, pivotIndex);
@@ -64,7 +64,7 @@ export default function sketch (p) {
 
     async function swap(i, j) {
 
-        await sleep(700);
+        await sleep(400);
         let temp = rectangles[i].value;
         rectangles[i].value = rectangles[j].value;
         rectangles[j].value = temp;

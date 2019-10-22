@@ -2,10 +2,10 @@ import Rectangle from '../../rectangle.js';
 
 export default function sketch (p) {
     let rectangles = [];
-    let rectWidth = 38;
+    let rectWidth = 20;
 
     p.setup = function () {
-        p.createCanvas(500, 390);
+        p.createCanvas(600, 390);
         let numOfRects = Math.floor(500 / rectWidth);
         for (let i = 0; i < numOfRects; i++) {
             let rectangle = new Rectangle(Math.floor(p.random(10, 390-100)));
@@ -15,7 +15,7 @@ export default function sketch (p) {
     };
 
     p.draw = function () {
-        p.background(200);
+        p.background("#ffffff");
         for (let i = 0; i < rectangles.length; i++) {
             if(rectangles[i].state == -1){
                 p.fill("#1dd1a1");
@@ -43,7 +43,7 @@ export default function sketch (p) {
     }
 
     async function swap(i, j){
-        await sleep(300);
+        await sleep(700);
         let temp = rectangles[i].value;
         rectangles[i].value = rectangles[j].value;
         rectangles[j].value = temp;
