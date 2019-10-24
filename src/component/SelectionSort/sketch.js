@@ -46,7 +46,7 @@ export default function sketch (p) {
                 rectangles[lowest].state = 0;
                 await swap(lowest, i);
                 rectangles[i].state = -1;
-                rectangles[lowest].state = -1;
+                rectangles[lowest].state = -
             }
         }
     }
