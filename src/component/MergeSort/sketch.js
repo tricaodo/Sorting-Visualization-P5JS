@@ -1,58 +1,69 @@
-import Rectangle from '../../rectangle.js';
+import Rectangle from '../../rectangle';
 
-export default function sketch (p) {
+export default function sketch(p) {
     let rectangles = [];
-    let temp = [];
     let rectWidth = 10;
 
     p.setup = function () {
+        
         p.createCanvas(1000, 390);
         let numOfRects = Math.floor(1000 / rectWidth);
         for (let i = 0; i < numOfRects; i++) {
             let rectangle = new Rectangle(Math.floor(p.random(10, 390 - 40)));
             rectangles.push(rectangle);
         }
-        mergeSort(0, rectangles.length);
+        mergeSort(rectangles);
     };
 
     p.draw = function () {
+        
         p.background("#ffffff");
-        for(let i = 0; i < rectangles.length; i++){
+        for (let i = 0; i < rectangles.length; i++) {
             if (rectangles[i].state == -1) {
                 p.fill("#05c46b"); // default green
-            }            
+            }
             p.rect(i * rectWidth, 390 - rectangles[i].value - 40, rectWidth, rectangles[i].value, 8, 8, 0, 0);
         }
     };
 
-    function mergeSort(start, end){
-        if(start < end){
-            let mid = (start + end) / 2;
-            mergeSort(start, mid);
-            mergeSort(mid + 1, end);
-            merge(start, mid, end);
+    async function mergeSort(arr) {
+        if(arr.length <= 1) {
+            return arr;
         }
+        let mid = Math.floor((arr.length) / 2);
+        
+        let leftArr = await mergeSort(arr.slice(0, mid));
+        await sleep(800);
+        let rightArr = await mergeSort(arr.slice(mid));
+        await sleep(800);
+        return merge(leftArr, rightArr);
     }
 
-    function merge(start, mid, end){
-        for(let i = 0; i < rectangles.length; i++){
-            temp[i] = rectangles[i];        
-        }
-        let i = start;
-        let j = mid + 1;
-        let idx = start;
-
+    function merge(leftArr, rightArr) {
+        let i = 0;
+        let j = 0;
+        let res = [];
         
-        // while(i <= mid && j <= end){
-        //     if(temp[i].value <= temp[j].value){
-        //         rectangles[idx++] = temp[i++];
-        //     }else{
-        //         rectangles[idx++] = temp[j++];
-        //     }
-        // }
-        // while(i <= mid){
-        //     rectangles[idx++] = temp[i++];
-        // }
+        while ((i < leftArr.length) && (j < rightArr.length)) {
+            if (leftArr[i].value <= rightArr[j].value) {
+                res.push(leftArr[i]);
+                i++;
+            }
+            else {
+                res.push(rightArr[j]);
+                j++
+            }
+        }
+        while(i < leftArr.length){
+            res.push(leftArr[i]);
+            i++;
+        }
+        while (j < rightArr.length) {
+            res.push(rightArr[j]);
+            j++;
+        }
+        rectangles = res;
+        return rectangles;
     }
 
     async function swap(i, j) {
