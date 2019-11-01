@@ -64,7 +64,7 @@ export default function sketch (p) {
 
     async function swap(i, j) {
 
-        await sleep(400);
+        await sleep(100);
         let temp = rectangles[i].value;
         rectangles[i].value = rectangles[j].value;
         rectangles[j].value = temp;

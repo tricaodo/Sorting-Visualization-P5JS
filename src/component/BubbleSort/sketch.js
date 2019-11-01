@@ -2,7 +2,7 @@ import Rectangle from '../../rectangle.js';
 
 export default function sketch (p) {
     let rectangles = [];
-    let rectWidth = 20;
+    let rectWidth = 10;
 
     p.setup = function () {
         p.createCanvas(600, 390);
@@ -43,7 +43,7 @@ export default function sketch (p) {
     }
 
     async function swap(i, j){
-        await sleep(700);
+        await sleep(100);
         let temp = rectangles[i].value;
         rectangles[i].value = rectangles[j].value;
         rectangles[j].value = temp;
